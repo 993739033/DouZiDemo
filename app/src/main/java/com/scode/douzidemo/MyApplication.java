@@ -5,7 +5,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import com.scode.douzidemo.db.GreenDaoUtils;
+import com.scode.douzidemo.model.db.GreenDaoUtils;
 
 /**
  * Created by 知らないのセカイ on 2017/6/13.
@@ -14,6 +14,11 @@ import com.scode.douzidemo.db.GreenDaoUtils;
 public class MyApplication extends Application {
     private static  GreenDaoUtils mGreenDaoUtils;
     private static  Context mcontext;
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+    }
 
     @Override
     public void onCreate() {
