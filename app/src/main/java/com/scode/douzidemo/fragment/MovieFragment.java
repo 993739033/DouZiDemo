@@ -13,14 +13,16 @@ import android.view.ViewGroup;
 
 import com.scode.douzidemo.R;
 import com.scode.douzidemo.fragment.base.BaseFragment;
+import com.scode.douzidemo.fragment.pagefragment.MoviePageFragment;
 import com.scode.douzidemo.utils.Constants;
 import com.scode.douzidemo.utils.SpUtils;
 import com.scode.douzidemo.view.animation.DepthPageTransformer;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
+ * 获取shareprefence 中获取moivetitle数组并赋值给constants，给viewpager设置adapter
+ *
  * Created by 知らないのセカイ on 2017/6/15.
  */
 
@@ -29,13 +31,13 @@ public class MovieFragment extends BaseFragment {
     TabLayout movie_tablayout;
     @BindView(R.id.fragment_movie_vp)
     ViewPager movie_vp;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-        String[] stringArray = SpUtils.getStringArray(getActivity(), Constants.MOVIE);
+        String[] stringArray = SpUtils.getStringArray(getActivity(), Constants.MOVIEKEY);
         if (stringArray != null && stringArray.length > 1) {
-            Constants.MOVIETITLE = SpUtils.getStringArray(getActivity(), Constants.MOVIE);
+            Constants.MOVIETITLE = SpUtils.getStringArray(getActivity(), Constants.MOVIEKEY);
             Constants.CHANGELABEL_MOVIE = false;
         }
     }
@@ -44,14 +46,13 @@ public class MovieFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_movie, container, false);
-        ButterKnife.bind(this, view);
+        bindK(view);//调用父类绑定view
         if (Constants.MOVIETITLE.length<=5){
             movie_tablayout.setTabMode(TabLayout.MODE_FIXED);
         }
         else{
             movie_tablayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         }
-        
         
         initData();
         return view;
@@ -73,7 +74,7 @@ public class MovieFragment extends BaseFragment {
 
         @Override
         public Fragment getItem(int position) {
-            return null;//// TODO: 2017/6/15 ？？这里需要new 一个moivepagefragment 传入position？？
+            return new MoviePageFragment(position);//// TODO: 2017/6/15 ？？这里需要new 一个moivepagefragment 传入position？？
         }
 
         @Override
